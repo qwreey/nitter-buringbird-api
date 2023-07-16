@@ -13,7 +13,7 @@ export type NitterBuringbirdResult = {
     countLast5Mins: number,
 }
 
-const cacheTimeThresholdSeconds = 30
+const cacheTimeThresholdSeconds = 30*1000
 
 const getNowSeconds:()=>number = ()=>{
     return Math.floor((+Date.now())/1000)
@@ -58,8 +58,6 @@ export default class NitterBuringbirdAPI {
                 content: parsed(element).find(".tweet-content").text(),
                 secondsAgo: agoSeconds,
             }
-            console.log(parsed(element).find(".tweet-date>a").text(),agoSeconds)
-            console.log(agoSeconds,30*60,agoSeconds > 30*60)
             if (agoSeconds < 30*60) result.countLast30Mins++
             if (agoSeconds < 20*60) result.countLast20Mins++
             if (agoSeconds < 10*60) result.countLast10Mins++

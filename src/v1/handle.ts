@@ -30,9 +30,13 @@ export default function(instance: instance, _options:any, done:VoidFunction) {
 
     instance.get("/v1/rss",{
         schema: {
-            params: {
-                
-            }
+            querystring: Type.Object({
+                min30: Type.Boolean({default: true}),
+                min20: Type.Boolean({default: true}),
+                min10: Type.Boolean({default: true}),
+                min5:  Type.Boolean({default: true}),
+                title: Type.String(),
+            })
         },
         async handler(request, reply) {
             let now = new Date()
@@ -45,37 +49,46 @@ export default function(instance: instance, _options:any, done:VoidFunction) {
             })
             let apiResult = await api.getBuringbirdResult()
 
-            newFeed.item({
+            if (request.query.title) newFeed.item({
+                title: request.query.title,
+                description: "",
+                url: "https://nitter.net/search?f=tweets&q=%ED%8A%B8%EC%9C%84%ED%84%B0%ED%84%B0%EC%A7%90&since=&until=&near=",
+                guid: "1",
+                categories: ["none"],
+                author: "Qwreey",
+                date: now
+            })
+            if (request.query.min30) newFeed.item({
                 title: `30 분동안 ${apiResult.countLast30Mins} 트윗`,
                 description: "",
-                url: "",
+                url: "https://nitter.net/search?f=tweets&q=%ED%8A%B8%EC%9C%84%ED%84%B0%ED%84%B0%EC%A7%90&since=&until=&near=",
                 guid: "1",
                 categories: ["none"],
                 author: "Qwreey",
                 date: now
             })
-            newFeed.item({
+            if (request.query.min20) newFeed.item({
                 title: `20 분동안 ${apiResult.countLast20Mins} 트윗`,
                 description: "",
-                url: "",
+                url: "https://nitter.net/search?f=tweets&q=%ED%8A%B8%EC%9C%84%ED%84%B0%ED%84%B0%EC%A7%90&since=&until=&near=",
                 guid: "1",
                 categories: ["none"],
                 author: "Qwreey",
                 date: now
             })
-            newFeed.item({
+            if (request.query.min10) newFeed.item({
                 title: `10 분동안 ${apiResult.countLast10Mins} 트윗`,
                 description: "",
-                url: "",
+                url: "https://nitter.net/search?f=tweets&q=%ED%8A%B8%EC%9C%84%ED%84%B0%ED%84%B0%EC%A7%90&since=&until=&near=",
                 guid: "1",
                 categories: ["none"],
                 author: "Qwreey",
                 date: now
             })
-            newFeed.item({
+            if (request.query.min5) newFeed.item({
                 title: `5 분동안 ${apiResult.countLast5Mins} 트윗`,
                 description: "",
-                url: "",
+                url: "https://nitter.net/search?f=tweets&q=%ED%8A%B8%EC%9C%84%ED%84%B0%ED%84%B0%EC%A7%90&since=&until=&near=",
                 guid: "1",
                 categories: ["none"],
                 author: "Qwreey",
