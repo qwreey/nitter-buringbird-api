@@ -5,11 +5,13 @@
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.3.1",
-    "fastify": "^4.19.2"
+    "fastify": "^4.19.2",
+    "rss": "^1.2.2"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.31",
     "@types/node": "^20.3.3",
+    "@types/rss": "^0.0.30",
     "tsc": "^2.0.4",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6"
