@@ -5,11 +5,10 @@ import { configDotenv } from "dotenv"
 
 configDotenv()
 
-
-
 const instance = fastify({ logger: true }).withTypeProvider<TypeBoxTypeProvider>()
 export type instance = typeof instance
 
+// 버전 1 API
 import APIV1 from "./v1/handle"
 instance.register(APIV1)
 
