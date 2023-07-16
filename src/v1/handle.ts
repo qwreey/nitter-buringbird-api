@@ -35,7 +35,7 @@ export default function(instance: instance, _options:any, done:VoidFunction) {
                 min20: Type.Boolean({default: true}),
                 min10: Type.Boolean({default: true}),
                 min5:  Type.Boolean({default: true}),
-                title: Type.String(),
+                title: Type.Optional(Type.String({})),
             })
         },
         async handler(request, reply) {
