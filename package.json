@@ -21,7 +21,7 @@
   },
   "name": "nitter-buringbird-api",
   "version": "1.0.0",
-  "description": "'트위터터짐' 검색결과를 가져옵니다",
+  "description": "'트위터터짐' 검색결과를 가져옵니다. 트위터 웨이브를 예측하는데 사용할 미스키 위젯을 넣을 수 있습니다",
   "main": "dist/index.js",
   "author": "qwreey75 <qwreey75@gmail.com>",
   "license": "MIT"
