@@ -18,8 +18,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "check": "tsx src/index.ts --check"
+    "build": "tsc"
   },
   "name": "nitter-buringbird-api",
   "version": "1.0.0",

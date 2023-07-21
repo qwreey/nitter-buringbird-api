@@ -2,11 +2,11 @@ import {
     type instance
 } from "../index"
 import { Type } from '@sinclair/typebox'
-import NitterBuringbirdAPI from "./api"
+import NitterBurningbirdAPI from "./api"
 import RSS from "rss"
 
 export default function(instance: instance, _options:any, done:VoidFunction) {
-    const api = new NitterBuringbirdAPI()
+    const api = new NitterBurningbirdAPI()
     
     instance.get("/v1/json",{
         schema: {
@@ -24,7 +24,7 @@ export default function(instance: instance, _options:any, done:VoidFunction) {
             }
         } as const,
         async handler(request, reply) {
-            reply.send(await api.getBuringbirdResult())
+            reply.send(await api.getBurningbirdResult())
         }
     })
 
@@ -48,7 +48,7 @@ export default function(instance: instance, _options:any, done:VoidFunction) {
                 site_url: "https://burningbird.qwreey.kr",
                 pubDate: now,
             })
-            let apiResult = await api.getBuringbirdResult()
+            let apiResult = await api.getBurningbirdResult()
 
             if (request.query.title) newFeed.item({
                 title: request.query.title,

@@ -1,12 +1,12 @@
 import * as cheerio from "cheerio"
 import axios from "axios"
 
-export type NitterBuringbirdContent = {
+export type NitterBurningbirdContent = {
     content: string,
     secondsAgo: number,
 }
-export type NitterBuringbirdResult = {
-    list: NitterBuringbirdContent[],
+export type NitterBurningbirdResult = {
+    list: NitterBurningbirdContent[],
     countLast30Mins: number,
     countLast20Mins: number,
     countLast10Mins: number,
@@ -28,24 +28,28 @@ const parseAgoToSeconds:(ago:string)=>number = (ago)=>{
     return -1
 }
 
-export default class NitterBuringbirdAPI {
-    cacheResult?:NitterBuringbirdResult
-    cacheTime:number;
+export default class NitterBurningbirdAPI {
+    cacheResult?:NitterBurningbirdResult
+    interval?:NodeJS.Timer
 
-    constructor() { this.cacheTime = 0 }
+    constructor() {
+        this.interval = setInterval(this.update.bind(this),cacheTimeThresholdSeconds*1000)
+    }
 
-    public async getBuringbirdResult():Promise<NitterBuringbirdResult> {
-        // 시간 짧으면 캐시반환
-        let now = getNowSeconds()
-        if (now - this.cacheTime < cacheTimeThresholdSeconds && this.cacheResult) {
-            return this.cacheResult
-        }
-
+    public dispose() {
+	if (this.interval) clearInterval(this.interval)
+	this.interval = undefined
+    }
+    public async getBurningbirdResult():Promise<NitterBurningbirdResult> {
+        if (!this.cacheResult) return await this.update()
+	return this.cacheResult
+    }
+    private async update():Promise<NitterBurningbirdResult> {
         // q=트위터터짐
         let body = await axios.get("https://nitter.net/search?f=tweets&q=%ED%8A%B8%EC%9C%84%ED%84%B0%ED%84%B0%EC%A7%90&since=&until=&near=")
         let parsed = cheerio.load(body.data)
         let timeline = parsed(".timeline-item")
-        let result:NitterBuringbirdResult = {
+        let result:NitterBurningbirdResult = {
             list: [],
             countLast30Mins: 0,
             countLast20Mins: 0,
@@ -54,7 +58,7 @@ export default class NitterBuringbirdAPI {
         }
         timeline.each((_n,element)=>{
             let agoSeconds = parseAgoToSeconds(parsed(element).find(".tweet-date>a").text())
-            let item:NitterBuringbirdContent = {
+            let item:NitterBurningbirdContent = {
                 content: parsed(element).find(".tweet-content").text(),
                 secondsAgo: agoSeconds,
             }
@@ -64,8 +68,7 @@ export default class NitterBuringbirdAPI {
             if (agoSeconds < 5*60) result.countLast5Mins++
             result.list.push(item)
         })
-        this.cacheTime = now
         this.cacheResult = result
-        return result
+	return result
     }
 }
