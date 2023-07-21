@@ -13,7 +13,7 @@ export type NitterBuringbirdResult = {
     countLast5Mins: number,
 }
 
-const cacheTimeThresholdSeconds = 30*1000
+const cacheTimeThresholdSeconds = 30
 
 const getNowSeconds:()=>number = ()=>{
     return Math.floor((+Date.now())/1000)
